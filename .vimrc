@@ -15,32 +15,15 @@ Plug 'https://github.com/Yggdroot/indentLine.git'
 " Plug 'https://github.com/godlygeek/tabular.git'
 Plug 'https://github.com/tpope/vim-commentary.git'
 Plug 'https://github.com/vim-scripts/indentpython.vim.git'
-Plug 'pangloss/vim-javascripti'
-Plug 'mxw/vim-jsx'
-Plug 'mattn/emmet-vim'
-Plug 'w0rp/ale'
-Plug 'skywind3000/asyncrun.vim'
-
-"Auto formats with prettier on js saves.
-autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
-
-
-let g:ale_sign_error = '●' " Less aggressive than the default '>>'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-
-let g:user_emmet_leader_key='<Tab>'
-let g:user_emmet_settings = {
-  \  'javascript.jsx' : {
-    \      'extends' : 'jsx',
-    \  },
-  \}
-
+Plug 'https://github.com/habamax/vim-godot.git'
+Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
 
 call plug#end()
 " packloadall
 set number         " Show current line number
 let g:one_allow_italics = 1 " I love italic for comments
+
+let g:ale_python_flake8_options = '--max-line-length=120'
 
 syntax on
 colorscheme onedark
@@ -67,6 +50,7 @@ nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| end
 autocmd Filetype graphql setlocal tabstop=4
 autocmd Filetype js setlocal tabstop=2
 autocmd Filetype py setlocal tabstop=4
+autocmd Filetype gd setlocal tabstop=4
 autocmd Filetype cpp setlocal tabstop=4
 
 
