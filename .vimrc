@@ -1,3 +1,11 @@
+" We start by installing Vim plugin manager to manage plugins.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
 call plug#begin()
 Plug 'https://github.com/nvie/vim-flake8.git'
 Plug 'https://github.com/joshdick/onedark.vim.git'
@@ -12,11 +20,34 @@ Plug 'https://github.com/severin-lemaignan/vim-minimap.git'
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'https://github.com/prettier/vim-prettier.git'
 Plug 'https://github.com/Yggdroot/indentLine.git'
-" Plug 'https://github.com/godlygeek/tabular.git'
 Plug 'https://github.com/tpope/vim-commentary.git'
 Plug 'https://github.com/vim-scripts/indentpython.vim.git'
 Plug 'https://github.com/habamax/vim-godot.git'
-Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
+" Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
+Plug 'editorconfig/editorconfig-vim'
+
+
+Plug 'valloric/youcompleteme'
+Plug 'vim-scripts/AutoComplPop'
+
+" React https://getaround.tech/setting-up-vim-for-react/
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+" Plug 'w0rp/ale'
+Plug 'skywind3000/asyncrun.vim'
+" Plug 'mattn/emmet-vim'
+"
+" highlights matching tags
+Plug 'leafOfTree/vim-matchtag'
+" Jumps around html tags using %
+Plug 'https://github.com/adelarsq/vim-matchit'
+
+"Unity / C#
+" Plug 'OmniSharp/omnisharp-vim'
+" :Commands:
+" 	:OmniSharpInstall -> Installs server
+"	:OmniSharpStartServer -> Starts server
+" Plug 'https://github.com/idbrii/vim-unityengine'
 
 call plug#end()
 " packloadall
@@ -36,7 +67,6 @@ set colorcolumn=120
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
-
 nnoremap <space> za
 
 set encoding=utf-8
@@ -47,8 +77,15 @@ let hlstate=0
 nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 
 " Tab spacing for file types
-autocmd Filetype graphql setlocal tabstop=4
 autocmd Filetype js setlocal tabstop=2
+autocmd Filetype js setlocal shiftwidth=2
+autocmd Filetype js setlocal softtabstop=2
+
+autocmd Filetype cs setlocal tabstop=4
+autocmd Filetype cs setlocal shiftwidth=4
+autocmd Filetype cs setlocal softtabstop=4
+
+autocmd Filetype json setlocal tabstop=4
 autocmd Filetype py setlocal tabstop=4
 autocmd Filetype gd setlocal tabstop=4
 autocmd Filetype cpp setlocal tabstop=4
@@ -57,35 +94,48 @@ autocmd Filetype cpp setlocal tabstop=4
 " Remove whitespace in .py files.
 autocmd BufWritePre *.py :%s/\s\+$//e
 
+
+" Clipboard support
 vnoremap <C-y> :'<,'>w !xclip -selection clipboard<Cr><Cr>
 
-" Toggle 'default' terminal
-nnoremap <C-t> :call ChooseTerm("term-slider", 1)<CR>
-" Start terminal in current pane
-nnoremap <C-~> :call ChooseTerm("term-pane", 0)<CR>
- 
-function! ChooseTerm(termname, slider)
-    let pane = bufwinnr(a:termname)
-    let buf = bufexists(a:termname)
-    if pane > 0
-        " pane is visible
-        if a:slider > 0
-            :exe pane . "wincmd c"
-        else
-            :exe "e #" 
-        endif
-    elseif buf > 0
-        " buffer is not in pane
-        if a:slider
-            :exe "topleft split"
-        endif
-        :exe "buffer " . a:termname
-    else
-        " buffer is not loaded, create
-        if a:slider
-            :exe "topleft split"
-        endif
-        :terminal
-        :exe "f " a:termname
-    endif
-endfunction
+" React 
+let g:user_emmet_leader_key='<Tab>'
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+
+let g:ale_linters = {
+\'cs': ['OmniSharp'],
+\   'javascript': ['eslint'],
+\}
+let b:ale_linters = ['cs', 'flow-language-server']
+let g:ale_sign_error = '•' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+" autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+
+" C# Project Setup
+" 1. run - `donet new console` in shell at project creation
+" 2. run - `OmniSharpStartServer` in Vim 
+" 3. run - `donet format` to format all .cs files.
+
+
+" TODO - https://dev.to/dlains/create-your-own-vim-commands-415b - Learn to
+" create custom vim commands. -- Create Python scripts to automate workflow
+"
+" Skipping defaults in attempt to stop auto-indenting
+ let skip_defaults_vim=1
+
+" You Complete Me config
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" Turn on spell checking 
+
+autocmd Filetype text spell spelllang=en_us
+
+
+" Disable auto line breaking
+autocmd VimEnter * setlocal textwidth=0 wrapmargin=0
