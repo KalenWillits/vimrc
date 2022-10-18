@@ -10,36 +10,26 @@ call plug#begin()
 Plug 'https://github.com/nvie/vim-flake8.git'
 Plug 'https://github.com/joshdick/onedark.vim.git'
 Plug 'https://github.com/preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'https://github.com/joshdick/onedark.vim.git'
 Plug 'https://github.com/vim-airline/vim-airline.git'
 Plug 'https://github.com/dense-analysis/ale.git'
 Plug 'https://github.com/mg979/vim-visual-multi.git'
-Plug 'https://github.com/tpope/vim-fugitive.git'
 Plug 'https://github.com/enricobacis/vim-airline-clock.git'
-Plug 'https://github.com/prettier/vim-prettier.git'
-Plug 'https://github.com/Yggdroot/indentLine.git'
 Plug 'https://github.com/tpope/vim-commentary.git'
 Plug 'editorconfig/editorconfig-vim'
-
-
-" Godot syntax highlighing: https://github.com/calviken/vim-gdscript3
-Plug 'calviken/vim-gdscript3'
-
-
 Plug 'valloric/youcompleteme'
-Plug 'vim-scripts/AutoComplPop'
+" Plug 'vim-scripts/AutoComplPop'
 
 " React https://getaround.tech/setting-up-vim-for-react/
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
 " Plug 'w0rp/ale'
-Plug 'skywind3000/asyncrun.vim'
+" Plug 'skywind3000/asyncrun.vim'
 " Plug 'mattn/emmet-vim'
 "
 " highlights matching tags
-Plug 'leafOfTree/vim-matchtag'
+" Plug 'leafOfTree/vim-matchtag'
 " Jumps around html tags using %
-Plug 'https://github.com/adelarsq/vim-matchit'
+" Plug 'https://github.com/adelarsq/vim-matchit'
 
 call plug#end()
 " packloadall
@@ -69,6 +59,9 @@ let hlstate=0
 nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 
 
+" remap gcc to ctrl-k
+xmap <c-k> <Plug>Commentary
+
 " Remove whitespace in .py files.
 autocmd BufWritePre *.py :%s/\s\+$//e
 
@@ -76,18 +69,18 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " Clipboard support
 vnoremap <C-y> :!xclip -selection clipboard<Cr><Cr>
 
-" React 
-let g:user_emmet_leader_key='<Tab>'
-let g:user_emmet_settings = {
-  \  'javascript.jsx' : {
-    \      'extends' : 'jsx',
-    \  },
-  \}
+" " React 
+" let g:user_emmet_leader_key='<Tab>'
+" let g:user_emmet_settings = {
+"   \  'javascript.jsx' : {
+"     \      'extends' : 'jsx',
+"     \  },
+"   \}
 
-let g:ale_linters = {
-\   'javascript': ['prettier', 'eslint'],
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\}
+" let g:ale_linters = {
+" \   'javascript': ['prettier', 'eslint'],
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \}
 let b:ale_linters = ['cs', 'flow-language-server']
 let g:ale_sign_error = '•' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
@@ -134,6 +127,4 @@ autocmd Filetype cpp setlocal tabstop=4
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=0 expandtab
 
-
-set conceallevel=0
-let g:indentLine_setConceal = 0
+set list lcs=tab:\|\ 
