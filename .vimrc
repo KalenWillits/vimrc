@@ -133,9 +133,6 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
 
-" Godot executable on path
-let g:godot_executable = '~/Applications/Godot/Godot_v3.5.1-stable_x11.64'
-
 " Turn on spell checking 
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.txt setlocal spell
