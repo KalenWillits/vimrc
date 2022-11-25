@@ -23,7 +23,7 @@ Plug 'vim-scripts/AutoComplPop'
 Plug 'https://github.com/nvie/vim-flake8.git'
 
 "Godot
-Plug 'habamax/vim-godot'
+Plug 'clktmr/vim-gdscript3'
 
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
@@ -52,7 +52,7 @@ set splitbelow
 let g:minimap_highlight='Visual'
 
 " Highlight characters at line break.
-set colorcolumn=120
+set colorcolumn=80,120 
 
 " Enable folding
 set foldmethod=indent
@@ -68,7 +68,9 @@ nnoremap <c-h> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| end
 nnoremap <space> za
 
 " remap gcc to ctrl-/
+xmap <c-_> <Plug>CommentaryLine
 nmap <c-_> <Plug>CommentaryLine
+
 
 " remap nerd tree toggle to ctrl-\
 nmap <C-Bslash> :NERDTreeToggle <cr>
