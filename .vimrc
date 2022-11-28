@@ -82,7 +82,11 @@ nmap <c-s> :w <cr>
 nmap <c-q> :q <cr>
 
 " Clipboard support remap
+""" Linux:
 vnoremap <C-c> :w !xclip -selection clipboard<Cr><Cr>
+""" Windows WSL:
+" vnoremap <C-c> :w !clip.exe <Cr><Cr>
+
 
 
 " " React 
