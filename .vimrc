@@ -1,5 +1,3 @@
-" We start by installing Vim plugin manager to manage plugins.
-if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -15,6 +13,7 @@ Plug 'https://github.com/dense-analysis/ale.git'
 Plug 'https://github.com/mg979/vim-visual-multi.git'
 Plug 'https://github.com/enricobacis/vim-airline-clock.git'
 Plug 'https://github.com/tpope/vim-commentary.git'
+Plug 'https://github.com/preservim/tagbar.git'
 " Plug 'editorconfig/editorconfig-vim'
 Plug 'valloric/youcompleteme'
 Plug 'vim-scripts/AutoComplPop'
@@ -68,12 +67,12 @@ nnoremap <c-h> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| end
 nnoremap <space> za
 
 " remap gcc to ctrl-/
-xmap <c-_> <Plug>CommentaryLine
-nmap <c-_> <Plug>CommentaryLine
-
+xmap <c-_> gc 
+nmap <c-_> gcc
 
 " remap nerd tree toggle to ctrl-\
-nmap <C-Bslash> :NERDTreeToggle <cr>
+" nmap <C-Bslash> :NERDTreeToggle <cr>
+nmap <C-Left> : NERDTreeToggle <cr>
 
 " remap save to ctrl-s
 nmap <c-s> :w <cr>
@@ -131,7 +130,10 @@ let g:ale_completion_autoimport = 1
 let skip_defaults_vim=1
 autocmd filetype indent off
 :set nowrap
- 
+
+" tags
+nmap <c-Right> :TagbarToggle<CR>
+
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
