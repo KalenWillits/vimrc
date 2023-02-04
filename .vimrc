@@ -1,3 +1,5 @@
+  " We start by installing Vim plugin manager to manage plugins.
+if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -6,6 +8,7 @@ endif
 
 call plug#begin()
 " System
+Plug 'sheerun/vim-polyglot'
 Plug 'https://github.com/joshdick/onedark.vim.git'
 Plug 'https://github.com/preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'https://github.com/vim-airline/vim-airline.git'
@@ -24,6 +27,8 @@ Plug 'https://github.com/nvie/vim-flake8.git'
 "Godot
 Plug 'clktmr/vim-gdscript3'
 
+"CSharp
+"Plug 'OmniSharp/omnisharp-vim'
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
  Plug 'pangloss/vim-javascript'
@@ -39,11 +44,28 @@ Plug 'clktmr/vim-gdscript3'
  Plug 'https://github.com/adelarsq/vim-matchit'
 
 call plug#end()
+
+set exrc
+set secure
+
+" Lint .h files as C++, not C
+let g:ale_pattern_options_enabled = 1
+let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['cc', 'gcc', 'clang'] } } }
+" Set flags for gcc/clang
+let opts = '-std=c++17 -Wall -Wextra'
+let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clang'] }
+let g:ale_cpp_cc_options    = opts
+let g:ale_cpp_gcc_options   = opts
+let g:ale_cpp_clang_options = opts
+
 " packloadall
 set number         " Show current line number
 let g:one_allow_italics = 1 " I love italic for comments
 
 let g:ale_python_flake8_options = '--max-line-length=120'
+" Add to .vimrc to enable project-specific vimrc
+" exrc allows loading local executing local rc files.
+" secure disallows the use of :autocmd, shell and write commands in local .vimrc files.
 
 syntax on
 colorscheme onedark
@@ -54,8 +76,8 @@ let g:minimap_highlight='Visual'
 set colorcolumn=80,120 
 
 " Enable folding
-set foldmethod=indent
-set foldlevel=99
+" set foldmethod=indent
+" set foldlevel=99
 
 set encoding=utf-8
 set hlsearch
@@ -71,8 +93,7 @@ xmap <c-_> gc
 nmap <c-_> gcc
 
 " remap nerd tree toggle to ctrl-\
-" nmap <C-Bslash> :NERDTreeToggle <cr>
-nmap <C-Left> : NERDTreeToggle <cr>
+nmap <C-Bslash> :NERDTreeToggle <cr>
 
 " remap save to ctrl-s
 nmap <c-s> :w <cr>
@@ -107,14 +128,6 @@ if !has_key( g:, 'ycm_language_server' )
   let g:ycm_language_server = []
 endif
 
-let g:ycm_language_server += [
-  \   {
-  \     'name': 'godot',
-  \     'filetypes': [ 'gdscript' ],
-  \     'project_root_files': [ 'project.godot' ],
-  \     'port': 6008
-  \   }
-  \ ]
 
 let b:ale_linters = ['cs', 'flow-language-server']
 let g:ale_sign_error = '•' " Less aggressive than the default '>>'
@@ -132,7 +145,10 @@ autocmd filetype indent off
 :set nowrap
 
 " tags
-nmap <c-Right> :TagbarToggle<CR>
+nmap <c-l> :TagbarToggle<CR>
+
+" Start OmniSharp
+nmap <c-O> :OmniSharpStartServer<CR>
 
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -165,3 +181,4 @@ hi Normal guibg=NONE ctermbg=NONE
 
 " Remove whitespace in .py files.
 autocmd BufWritePre *.py :%s/\s\+$//e
+
