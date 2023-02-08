@@ -1,4 +1,4 @@
-  " We start by installing Vim plugin manager to manage plugins.
+" We start by installing Vim plugin manager to manage plugins.
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -27,8 +27,6 @@ Plug 'https://github.com/nvie/vim-flake8.git'
 "Godot
 Plug 'clktmr/vim-gdscript3'
 
-"CSharp
-"Plug 'OmniSharp/omnisharp-vim'
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
  Plug 'pangloss/vim-javascript'
@@ -45,12 +43,9 @@ Plug 'clktmr/vim-gdscript3'
 
 call plug#end()
 
-set exrc
-set secure
-
 " Lint .h files as C++, not C
 let g:ale_pattern_options_enabled = 1
-let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['cc', 'gcc', 'clang'] } } }
+let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['gcc',] } } }
 " Set flags for gcc/clang
 let opts = '-std=c++17 -Wall -Wextra'
 let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clang'] }
@@ -147,9 +142,6 @@ autocmd filetype indent off
 " tags
 nmap <c-l> :TagbarToggle<CR>
 
-" Start OmniSharp
-nmap <c-O> :OmniSharpStartServer<CR>
-
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -182,3 +174,6 @@ hi Normal guibg=NONE ctermbg=NONE
 " Remove whitespace in .py files.
 autocmd BufWritePre *.py :%s/\s\+$//e
 
+
+set exrc
+set secure
