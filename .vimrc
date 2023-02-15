@@ -25,15 +25,15 @@ Plug 'vim-scripts/AutoComplPop'
 Plug 'https://github.com/nvie/vim-flake8.git'
 
 "Godot
-Plug 'clktmr/vim-gdscript3'
+" Plug 'clktmr/vim-gdscript3'
 
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
- Plug 'pangloss/vim-javascript'
- Plug 'mxw/vim-jsx'
- Plug 'w0rp/ale'
- Plug 'skywind3000/asyncrun.vim'
- Plug 'mattn/emmet-vim'
+ " Plug 'pangloss/vim-javascript'
+ " Plug 'mxw/vim-jsx'
+ " Plug 'w0rp/ale'
+ " Plug 'skywind3000/asyncrun.vim'
+ " Plug 'mattn/emmet-vim'
 
  "highlights matching tags
  Plug 'leafOfTree/vim-matchtag'
@@ -47,7 +47,7 @@ call plug#end()
 let g:ale_pattern_options_enabled = 1
 let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['gcc',] } } }
 " Set flags for gcc/clang
-let opts = '-std=c++17 -Wall -Wextra'
+let opts = '-std=c++20 -Wall -Wextra'
 let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clang'] }
 let g:ale_cpp_cc_options    = opts
 let g:ale_cpp_gcc_options   = opts
@@ -103,20 +103,6 @@ vnoremap <C-c> :w !xclip -selection clipboard<Cr><Cr>
 " vnoremap <C-c> :w !clip.exe <Cr><Cr>
 
 
-
-" " React 
-" let g:user_emmet_leader_key='<Tab>'
-" let g:user_emmet_settings = {
-"   \  'javascript.jsx' : {
-"     \      'extends' : 'jsx',
-"     \  },
-"   \}
-
-" let g:ale_linters = {
-" \   'javascript': ['prettier', 'eslint'],
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \o
-"
 " Ale
 " You Complete Me config
 if !has_key( g:, 'ycm_language_server' )
@@ -128,7 +114,7 @@ let b:ale_linters = ['cs', 'flow-language-server']
 let g:ale_sign_error = '•' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '◦'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-let g:ale_javascript_prettier_options = '--no-semi --single-quote --trailing-comma none --html-whitespace-sensitivity --single-attribute-per-line --embedded-language-formatting=off'
+" let g:ale_javascript_prettier_options = '--no-semi --single-quote --trailing-comma none --html-whitespace-sensitivity --single-attribute-per-line --embedded-language-formatting=off'
 " Allow ALE to autoimport completion entries from LSP servers
 let g:ale_completion_autoimport = 1
 
