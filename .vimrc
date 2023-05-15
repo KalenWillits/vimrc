@@ -21,11 +21,15 @@ Plug 'https://github.com/preservim/tagbar.git'
 Plug 'valloric/youcompleteme'
 Plug 'vim-scripts/AutoComplPop'
 
+" Rust
+Plug 'cespare/vim-toml'
+Plug 'rust-lang/rust.vim'
+
 " Python
 Plug 'https://github.com/nvie/vim-flake8.git'
 
 "Godot
-" Plug 'clktmr/vim-gdscript3'
+Plug 'https://github.com/habamax/vim-godot.git'
 
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
@@ -42,16 +46,24 @@ Plug 'https://github.com/nvie/vim-flake8.git'
  Plug 'https://github.com/adelarsq/vim-matchit'
 
 call plug#end()
+syntax enable
+filetype plugin indent on
 
-" Lint .h files as C++, not C
-let g:ale_pattern_options_enabled = 1
+" Enable ALE auto completion globally
+" let g:ale_completion_enabled = 1
+
+" Allow ALE to autoimport completion entries from LSP servers
+" let g:ale_completion_autoimport = 1
+
 let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['gcc',] } } }
 " Set flags for gcc/clang
-let opts = '-std=c++20 -Wall -Wextra'
-let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clang'] }
+let opts = '-std=c++20 -Wall -Wextra -I include/ -L lib/ -lraylib'
+let g:ale_linters = { 'rust': ['analyzer'], 'cpp': ['cc', 'gcc', 'clang'] }
+
 let g:ale_cpp_cc_options    = opts
 let g:ale_cpp_gcc_options   = opts
 let g:ale_cpp_clang_options = opts
+let g:ale_rust_rls_toolchain = 'stable'
 
 " packloadall
 set number         " Show current line number
@@ -81,6 +93,10 @@ set hlsearch
 let hlstate=0
 nnoremap <c-h> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
 
+" cntrl+j/k to nav linter errors
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
 nnoremap <space> za
 
 " remap gcc to ctrl-/
@@ -105,18 +121,17 @@ vnoremap <C-c> :w !xclip -selection clipboard<Cr><Cr>
 
 " Ale
 " You Complete Me config
-if !has_key( g:, 'ycm_language_server' )
-  let g:ycm_language_server = []
-endif
+" if !has_key( g:, 'ycm_language_server' )
+"   let g:ycm_language_server = []
+" endif
 
 
-let b:ale_linters = ['cs', 'flow-language-server']
+" let b:ale_linters = ['cs', 'flow-language-server']
 let g:ale_sign_error = '•' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '◦'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 " let g:ale_javascript_prettier_options = '--no-semi --single-quote --trailing-comma none --html-whitespace-sensitivity --single-attribute-per-line --embedded-language-formatting=off'
 " Allow ALE to autoimport completion entries from LSP servers
-let g:ale_completion_autoimport = 1
 
 " TODO - https://dev.to/dlains/create-your-own-vim-commands-415b - Learn to
 " create custom vim commands. -- Create Python scripts to automate workflow
@@ -159,6 +174,33 @@ hi Normal guibg=NONE ctermbg=NONE
 
 " Remove whitespace in .py files.
 autocmd BufWritePre *.py :%s/\s\+$//e
+
+
+"Godot
+let g:godot_executable = '~/Applications/Godot4/Godot_v4.0.x86_64'
+
+if !has_key( g:, 'ycm_language_server' )
+  let g:ycm_language_server = []
+endif
+
+let g:ycm_language_server += [
+\      {
+\        'name': 'godot',
+\        'filetypes': [ 'gdscript' ],
+\        'project_root_files': [ 'project.godot' ],
+\        'port': 6008
+\      }
+\    ]
+
+" " Register LSP server for Godot:
+" call ale#linter#Define('gdscript', {
+" \    'name': 'godot',
+" \    'lsp': 'socket',
+" \    'address': '127.0.0.1:6008',
+" \    'project_root': 'project.godot',
+" \ })
+
+
 
 
 set exrc
