@@ -28,16 +28,13 @@ Plug 'rust-lang/rust.vim'
 " Python
 Plug 'https://github.com/nvie/vim-flake8.git'
 
-"Godot
-Plug 'https://github.com/habamax/vim-godot.git'
-
 " React
  "React https://getaround.tech/setting-up-vim-for-react/
- " Plug 'pangloss/vim-javascript'
- " Plug 'mxw/vim-jsx'
- " Plug 'w0rp/ale'
- " Plug 'skywind3000/asyncrun.vim'
- " Plug 'mattn/emmet-vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+  Plug 'w0rp/ale'
+  Plug 'skywind3000/asyncrun.vim'
+  Plug 'mattn/emmet-vim'
 
  "highlights matching tags
  Plug 'leafOfTree/vim-matchtag'
@@ -58,7 +55,11 @@ filetype plugin indent on
 let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['gcc',] } } }
 " Set flags for gcc/clang
 let opts = '-std=c++20 -Wall -Wextra -I include/ -L lib/ -lraylib'
-let g:ale_linters = { 'rust': ['analyzer'], 'cpp': ['cc', 'gcc', 'clang'] }
+let g:ale_linters = { 
+\	'rust': ['analyzer'], 
+\	'cpp': ['cc', 'gcc', 'clang'], 
+\	'java': ['javac'] 
+\	}
 
 let g:ale_cpp_cc_options    = opts
 let g:ale_cpp_gcc_options   = opts
@@ -118,14 +119,6 @@ vnoremap <C-c> :w !xclip -selection clipboard<Cr><Cr>
 """ Windows WSL:
 " vnoremap <C-c> :w !clip.exe <Cr><Cr>
 
-
-" Ale
-" You Complete Me config
-" if !has_key( g:, 'ycm_language_server' )
-"   let g:ycm_language_server = []
-" endif
-
-
 " let b:ale_linters = ['cs', 'flow-language-server']
 let g:ale_sign_error = '•' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '◦'
@@ -133,8 +126,6 @@ let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 " let g:ale_javascript_prettier_options = '--no-semi --single-quote --trailing-comma none --html-whitespace-sensitivity --single-attribute-per-line --embedded-language-formatting=off'
 " Allow ALE to autoimport completion entries from LSP servers
 
-" TODO - https://dev.to/dlains/create-your-own-vim-commands-415b - Learn to
-" create custom vim commands. -- Create Python scripts to automate workflow
 " Skipping defaults in attempt to stop auto-indenting
 let skip_defaults_vim=1
 autocmd filetype indent off
@@ -165,6 +156,11 @@ autocmd Filetype js setlocal tabstop=2
 autocmd Filetype js setlocal shiftwidth=2
 autocmd Filetype js setlocal softtabstop=2
 
+" Nerd Tree enable line numbers
+let NERDTreeShowLineNumbers=1
+" Nerd Tree make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
+
 
 " Displays tabs as pipe
 set list lcs=tab:\|\ 
@@ -176,32 +172,10 @@ hi Normal guibg=NONE ctermbg=NONE
 autocmd BufWritePre *.py :%s/\s\+$//e
 
 
-"Godot
-let g:godot_executable = '~/Applications/Godot4/Godot_v4.0.x86_64'
 
 if !has_key( g:, 'ycm_language_server' )
   let g:ycm_language_server = []
 endif
-
-let g:ycm_language_server += [
-\      {
-\        'name': 'godot',
-\        'filetypes': [ 'gdscript' ],
-\        'project_root_files': [ 'project.godot' ],
-\        'port': 6008
-\      }
-\    ]
-
-" " Register LSP server for Godot:
-" call ale#linter#Define('gdscript', {
-" \    'name': 'godot',
-" \    'lsp': 'socket',
-" \    'address': '127.0.0.1:6008',
-" \    'project_root': 'project.godot',
-" \ })
-
-
-
 
 set exrc
 set secure
